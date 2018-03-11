@@ -21,6 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Salary)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Position)
+        </th>
         <th></th>
     </tr>
 
@@ -35,10 +38,13 @@
         <td>
             @Html.DisplayFor(modelItem => player.Salary)
         </td>
+        <th>
+            @Html.DisplayFor(modelItem => player.Position)
+        </th>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=player.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=player.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=player.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = player.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = player.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = player.Id })
         </td>
     </tr>
 }

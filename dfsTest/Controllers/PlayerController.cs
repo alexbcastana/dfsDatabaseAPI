@@ -27,7 +27,7 @@ namespace dfsTest.Controllers
         [HttpPost]
         [ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync([Bind(Include = "Id,FName,LName,Salary")] Player player)
+        public async Task<ActionResult> CreateAsync([Bind(Include = "Id,FName,LName,Salary,Position")] Player player)
         {
             if (ModelState.IsValid)
             {

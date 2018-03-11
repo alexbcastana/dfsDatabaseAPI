@@ -19,5 +19,8 @@ namespace dfsTest.Models
 
         [JsonProperty(PropertyName = "salary")]
         public int Salary { get; set; }
+
+        [JsonProperty(PropertyName = "position")]
+        public string Position { get; set; }
     }
 }
