@@ -14,7 +14,7 @@ namespace dfsTest.Controllers
         [ActionName("Index")]
         public async Task<ActionResult> IndexAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary > 1000));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C"));
             return View(players);
         }
 

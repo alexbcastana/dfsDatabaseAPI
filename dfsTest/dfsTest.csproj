@@ -199,6 +199,7 @@
     <Content Include="Views\Player\Delete.cshtml" />
     <Content Include="Views\Player\Edit.cshtml" />
     <Content Include="Views\MainPage\Index.cshtml" />
+    <Content Include="Views\MainPage\C.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
