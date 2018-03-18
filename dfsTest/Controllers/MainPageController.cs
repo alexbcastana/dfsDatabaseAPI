@@ -14,47 +14,85 @@ namespace dfsTest.Controllers
         // GET: MainPage
         public async Task<ActionResult> Index()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (!d.InLineup));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary>0));
             return View(players);
         }
-        [ActionName("SelectPlayer")]
-        public async Task<ActionResult> SelectPlayerAction(Player player)
+        [ActionName("DeselectAll")]
+        public async Task<ActionResult> DeselectAllAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == player.Position));
-            return View("~/Views/MainPage/Index.cshtml", player);
+            if (ModelState.IsValid)
+            {
+                var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.InLineup == true));
+                foreach (var player in players)
+                {
+                    player.InLineup = false;
+                    await DocumentDBRepository<Player>.UpdatePlayerAsync(player.Id, player);
+                }
+                players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary > 0));
+            }
+            return RedirectToAction("Index");
+        }
+        [ActionName("DeselectPlayer")]
+        public async Task<ActionResult> DeselectPlayerAsync(String id)
+        {
+            if (ModelState.IsValid)
+            {
+                var player = await DocumentDBRepository<Player>.GetPlayerAsync(id);
+                player.InLineup = false;
+                await DocumentDBRepository<Player>.UpdatePlayerAsync(player.Id, player);
+            }
+            return RedirectToAction("Index");
+        }
+        [ActionName("SelectPlayer")]
+        public async Task<ActionResult> SelectPlayerAsync(String id)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var player = await DocumentDBRepository<Player>.GetPlayerAsync(id);
+                player.InLineup = true;
+                await DocumentDBRepository<Player>.UpdatePlayerAsync(player.Id, player);
+            }
+            return RedirectToAction("Index");
+        }
+        [ActionName("All")]
+        public async Task<ActionResult> AllAsync()
+        {
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary>0));
+            return View("~/Views/MainPage/Index.cshtml", players);
         }
         [ActionName("PG")]
         public async Task<ActionResult> PGAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PG"));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PG" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("SG")]
         public async Task<ActionResult> SGAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SG"));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SG" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("C")]
         public async Task<ActionResult> CAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C"));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("PF")]
         public async Task<ActionResult> PFAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PF"));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PF" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("SF")]
         public async Task<ActionResult> SFAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SF"));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SF" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
 

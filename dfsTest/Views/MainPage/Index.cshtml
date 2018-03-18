@@ -41,13 +41,47 @@
                     @Html.DisplayNameFor(model => model.Position)
                 </th>
                 <th>
-                    <p>Options</p>
+                    @using (Html.BeginForm("DeselectAll", "MainPage"))
+                    {
+                        <input class="button" id="submit" type="submit" value="Deselect All" />
+                    }
                 </th>
             </tr>
+            @{
+                foreach (var player in Model)
+                {
+                        if (player.InLineup)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => player.FName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => player.LName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => player.Salary)
+                                </td>
+                                <th>
+                                    @Html.DisplayFor(modelItem => player.Position)
+                                </th>
+                                <th>
+                                    @using (Html.BeginForm("DeselectPlayer", "MainPage", new { id = player.Id }))
+                                    {
+                                        <input class="button" id="submit" type="submit" value="Deselect Player" />
+                                    }
+                                </th>
+                            </tr>
+                        }
+                }
+            }
         </table>
         <h3>Filter Positions</h3>
         <table class="table">
             <tr>
+                <th>
+                    <button type="button" onclick="location.href='@Url.Action("All", "MainPage")'">All</button>
+                </th>
                 <th>
                     <button type="button" onclick="location.href='@Url.Action("C", "MainPage")'">Center</button>
                 </th>
@@ -85,27 +119,33 @@
                 </th>
             </tr>
             @{
-
-                foreach (var player in Model)
+        foreach (var lineupPlayer in Model)
+        {
+            if (lineupPlayer.InLineup == false)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => lineupPlayer.FName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => lineupPlayer.LName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => lineupPlayer.Salary)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => lineupPlayer.Position)
+                    </th>
+                    <th>
+                        @using (Html.BeginForm("SelectPlayer", "MainPage", new { id = lineupPlayer.Id }))
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => player.FName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => player.LName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => player.Salary)
-                        </td>
-                        <th>
-                            @Html.DisplayFor(modelItem => player.Position)
-                        </th>
-                        <th>
-                            <button type="button" onclick="location.href='@Url.Action("SelectPlayer", "MainPage")', player">Select Player</button>
-                        </th>
-                    </tr>
-                }
+                    <input class="button" id="submit" type="submit" value="Select Player" />
+        }
+                    </th>
+                </tr>
+    }
+
+}
             }
         </table>
 
