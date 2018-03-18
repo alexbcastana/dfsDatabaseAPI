@@ -101,11 +101,28 @@ namespace dfsTest.Controllers
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.InLineup));
             int budget = 60000;
+            int centers = 0;
+            int pfs = 0;
+            int sfs = 0;
+            int pgs = 0;
+            int sgs = 0;
+            Boolean toReturn = false;
             foreach (Player player in players)
             {
+                if (player.Position == "PF")
+                    pfs++;
+                else if (player.Position == "SF")
+                    sfs++;
+                else if (player.Position == "C")
+                    centers++;
+                else if (player.Position == "PG")
+                    pgs++;
+                else
+                    sgs++;
                 budget = budget - player.Salary;
             }
-            return View(budget > 0);
+            toReturn = (budget > 0 && pfs <= 2 && sfs <= 2 && pgs <= 2 && sgs <= 2 && centers <= 2);
+            return View("~/Views/MainPage/Index.cshtml", toReturn);
         }
     }
 }
