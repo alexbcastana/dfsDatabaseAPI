@@ -22,5 +22,8 @@ namespace dfsTest.Models
 
         [JsonProperty(PropertyName = "position")]
         public string Position { get; set; }
+
+        [JsonProperty(PropertyName = "inLineup")]
+        public Boolean InLineup { get; set; }
     }
 }

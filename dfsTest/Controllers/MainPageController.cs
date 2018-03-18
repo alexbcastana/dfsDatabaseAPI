@@ -14,7 +14,7 @@ namespace dfsTest.Controllers
         // GET: MainPage
         public async Task<ActionResult> Index()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C"));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (!d.InLineup));
             return View(players);
         }
         [ActionName("SelectPlayer")]
@@ -56,6 +56,18 @@ namespace dfsTest.Controllers
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SF"));
             return View("~/Views/MainPage/Index.cshtml", players);
+        }
+
+        [ActionName("Validate")]
+        public async Task<ActionResult> ValidateAsync()
+        {
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.InLineup));
+            int budget = 60000;
+            foreach (Player player in players)
+            {
+                budget = budget - player.Salary;
+            }
+            return View(budget > 0);
         }
     }
 }

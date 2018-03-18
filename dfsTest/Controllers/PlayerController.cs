@@ -11,10 +11,10 @@ namespace dfsTest.Controllers
 {
     public class PlayerController : Controller
     {
-        [ActionName("Index")]
+        [ActionName("PlayerCreator")]
         public async Task<ActionResult> IndexAsync()
         {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C"));
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary > 0 ));
             return View(players);
         }
 
@@ -29,6 +29,7 @@ namespace dfsTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync([Bind(Include = "Id,FName,LName,Salary,Position")] Player player)
         {
+            player.InLineup = false;
             if (ModelState.IsValid)
             {
                 await DocumentDBRepository<Player>.CreatePlayerAsync(player);
@@ -41,7 +42,7 @@ namespace dfsTest.Controllers
         [HttpPost]
         [ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync([Bind(Include = "Id,FName,LName,Salary")] Player player)
+        public async Task<ActionResult> EditAsync([Bind(Include = "Id,FName,LName,Salary,Position,InLineup")] Player player)
         {
             if (ModelState.IsValid)
             {
