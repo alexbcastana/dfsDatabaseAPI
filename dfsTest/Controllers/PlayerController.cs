@@ -11,7 +11,7 @@ namespace dfsTest.Controllers
 {
     public class PlayerController : Controller
     {
-        [ActionName("PlayerCreator")]
+        [ActionName("Index")]
         public async Task<ActionResult> IndexAsync()
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary > 0 ));
