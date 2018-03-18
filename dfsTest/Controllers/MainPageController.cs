@@ -12,44 +12,50 @@ namespace dfsTest.Controllers
     public class MainPageController : Controller
     {
         // GET: MainPage
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C"));
+            return View(players);
         }
-
+        [ActionName("SelectPlayer")]
+        public async Task<ActionResult> SelectPlayerAction(Player player)
+        {
+            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == player.Position));
+            return View("~/Views/MainPage/Index.cshtml", player);
+        }
         [ActionName("PG")]
         public async Task<ActionResult> PGAsync()
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PG"));
-            return View(players);
+            return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("SG")]
         public async Task<ActionResult> SGAsync()
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SG"));
-            return View(players);
+            return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("C")]
         public async Task<ActionResult> CAsync()
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C"));
-            return View(players);
+            return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("PF")]
         public async Task<ActionResult> PFAsync()
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PF"));
-            return View(players);
+            return View("~/Views/MainPage/Index.cshtml", players);
         }
 
         [ActionName("SF")]
         public async Task<ActionResult> SFAsync()
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SF"));
-            return View(players);
+            return View("~/Views/MainPage/Index.cshtml", players);
         }
     }
 }

@@ -1,8 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<dfsTest.Models.Player>
+
+<!DOCTYPE html>
 <html>
 <head>
     <title>Main Page</title>
     <style>
+
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -21,60 +24,92 @@
     </style>
 </head>
 <body>
-    @Html.ActionLink("C", "C")
-    <form method="POST" action="">
-        <input type="button" name="Center" value="Center: None" />
-        <input type="button" name="PF" value="PF: None" />
-        <input type="button" name="SG" value="SG: None" />
-        <input type="button" name="PG" value="PG: None" />
-        <input type="button" name="SF" value="SF: None" />
-    </form>
+    @{
+        <h2>Your Lineup</h2>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Salary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Position)
+                </th>
+                <th>
+                    <p>Options</p>
+                </th>
+            </tr>
+        </table>
+        <h3>Filter Positions</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    <button type="button" onclick="location.href='@Url.Action("C", "MainPage")'">Center</button>
+                </th>
+                <th>
+                    <button type="button" onclick="location.href='@Url.Action("PG", "MainPage")'">Point Guard</button>
+                </th>
+                <th>
+                    <button type="button" onclick="location.href='@Url.Action("SG", "MainPage")'">Shooting Guard</button>
+                </th>
+                <th>
+                    <button type="button" onclick="location.href='@Url.Action("SF", "MainPage")'">Small Forward</button>
+                </th>
+                <th>
+                    <button type="button" onclick="location.href='@Url.Action("PF", "MainPage")'">Power Forward</button>
+                </th>
+            </tr>
+        </table>
+        <h3>Select Your Player</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Salary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Position)
+                </th>
+                <th>
+                    <p>Options</p>
+                </th>
+            </tr>
+            @{
 
-    <h2>Available Players</h2>
+                foreach (var player in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => player.FName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => player.LName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => player.Salary)
+                        </td>
+                        <th>
+                            @Html.DisplayFor(modelItem => player.Position)
+                        </th>
+                        <th>
+                            <button type="button" onclick="location.href='@Url.Action("SelectPlayer", "MainPage")', player">Select Player</button>
+                        </th>
+                    </tr>
+                }
+            }
+        </table>
 
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Salary</th>
-        </tr>
-        <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Maria Anders</td>
-            <td>Germany</td>
-        </tr>
-        <tr>
-            <td>Centro comercial Moctezuma</td>
-            <td>Francisco Chang</td>
-            <td>Mexico</td>
-        </tr>
-        <tr>
-            <td>Ernst Handel</td>
-            <td>Roland Mendel</td>
-            <td>Austria</td>
-        </tr>
-        <tr>
-            <td>Island Trading</td>
-            <td>Helen Bennett</td>
-            <td>UK</td>
-        </tr>
-        <tr>
-            <td>Laughing Bacchus Winecellars</td>
-            <td>Yoshi Tannamuri</td>
-            <td>Canada</td>
-        </tr>
-        <tr>
-            <td>Magazzini Alimentari Riuniti</td>
-            <td>Giovanni Rovelli</td>
-            <td>Italy</td>
-        </tr>
-    </table>
-
-
-    <script type="text/javascript">
-        var ecksdee = function () {
-            console.log("whatup");
-        };
-    </script>
+    }
 </body>
 </html>
+
