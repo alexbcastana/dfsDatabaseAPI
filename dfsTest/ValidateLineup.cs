@@ -46,7 +46,7 @@ namespace dfsTest.Controllers
                 lineup.SalarySum = lineup.SalarySum + player.Salary;
             }
             lineup.TotalPlayers = lineup.NumCenters + lineup.NumPFs + lineup.NumPGs + lineup.NumSGs + lineup.NumSFs;
-            if (lineup.SalarySum < lineup.Budget && lineup.NumSGs <= 2 && lineup.NumSFs <= 2 && lineup.NumPFs <= 2 && lineup.NumPGs <= 2 && lineup.NumCenters <= 2 && lineup.TotalPlayers <= 9)
+            if (lineup.SalarySum < lineup.Budget && lineup.NumSGs <= 2 && lineup.NumSFs <= 2 && lineup.NumPFs <= 2 && lineup.NumPGs <= 2 && lineup.NumCenters <= 1 && lineup.TotalPlayers <= 9)
             {
                 lineup.IsValid = "VALID";
             }
