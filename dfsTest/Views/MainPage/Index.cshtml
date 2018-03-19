@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<dfsTest.Models.Player>
+@using dfsTest.Models;
 
 <!DOCTYPE html>
 <html>
@@ -50,31 +51,67 @@
             @{
                 foreach (var player in Model)
                 {
-                        if (player.InLineup)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => player.FName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => player.LName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => player.Salary)
-                                </td>
-                                <th>
-                                    @Html.DisplayFor(modelItem => player.Position)
-                                </th>
-                                <th>
-                                    @using (Html.BeginForm("DeselectPlayer", "MainPage", new { id = player.Id }))
-                                    {
-                                        <input class="button" id="submit" type="submit" value="Deselect Player" />
-                                    }
-                                </th>
-                            </tr>
-                        }
+                    if (player.InLineup)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => player.FName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => player.LName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => player.Salary)
+                            </td>
+                            <th>
+                                @Html.DisplayFor(modelItem => player.Position)
+                            </th>
+                            <th>
+                                @using (Html.BeginForm("DeselectPlayer", "MainPage", new { id = player.Id }))
+                                {
+                                    <input class="button" id="submit" type="submit" value="Deselect Player" />
+                                }
+                            </th>
+                        </tr>
+                    }
                 }
             }
+        </table>
+        var lineupInfo = (LineupInfo)ViewData["MyLineup"];
+        <table>
+            <tr>
+                <th>
+                    <p>Lineup Check</p>
+                </th>
+                <th>
+                    <p>Budget: @lineupInfo.Budget</p>
+
+                </th>
+                <th>
+                    <p>Salary Sum: @lineupInfo.SalarySum</p>
+                </th>
+                <th>
+                    <p>Player Count: @lineupInfo.TotalPlayers</p>
+                </th>
+                <th>
+                    <p>Centers: @lineupInfo.NumCenters</p>
+                </th>
+                <th>
+                    <p>PGs: @lineupInfo.NumPGs</p>
+                </th>
+                <th>
+                    <p>SGs: @lineupInfo.NumSGs</p>
+                </th>
+                <th>
+                    <p>SF: @lineupInfo.NumSFs</p>
+                </th>
+                <th>
+                    <p>PFs: @lineupInfo.NumPFs</p>
+                </th>
+                <th>
+                    <p>Valid Lineup: @lineupInfo.IsValid</p>
+                </th>
+            </tr>
         </table>
         <h3>Filter Positions</h3>
         <table class="table">
@@ -119,33 +156,33 @@
                 </th>
             </tr>
             @{
-        foreach (var lineupPlayer in Model)
-        {
-            if (lineupPlayer.InLineup == false)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => lineupPlayer.FName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => lineupPlayer.LName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => lineupPlayer.Salary)
-                    </td>
-                    <th>
-                        @Html.DisplayFor(modelItem => lineupPlayer.Position)
-                    </th>
-                    <th>
-                        @using (Html.BeginForm("SelectPlayer", "MainPage", new { id = lineupPlayer.Id }))
+                foreach (var lineupPlayer in Model)
                 {
-                    <input class="button" id="submit" type="submit" value="Select Player" />
-        }
-                    </th>
-                </tr>
-    }
+                    if (lineupPlayer.InLineup == false)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => lineupPlayer.FName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => lineupPlayer.LName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => lineupPlayer.Salary)
+                            </td>
+                            <th>
+                                @Html.DisplayFor(modelItem => lineupPlayer.Position)
+                            </th>
+                            <th>
+                                @using (Html.BeginForm("SelectPlayer", "MainPage", new { id = lineupPlayer.Id }))
+                                {
+                                    <input class="button" id="submit" type="submit" value="Select Player" />
+                                }
+                            </th>
+                        </tr>
+                    }
 
-}
+                }
             }
         </table>
 

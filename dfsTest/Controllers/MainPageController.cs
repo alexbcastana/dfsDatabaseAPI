@@ -14,6 +14,8 @@ namespace dfsTest.Controllers
         // GET: MainPage
         public async Task<ActionResult> Index()
         {
+            var lineup = new ValidateLineup();
+            ViewData["MyLineup"] = lineup.GetLineup();
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary>0));
             return View(players);
         }
@@ -59,11 +61,13 @@ namespace dfsTest.Controllers
         public async Task<ActionResult> AllAsync()
         {
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Salary>0));
-            return View("~/Views/MainPage/Index.cshtml", players);
+            return RedirectToAction("Index");
         }
         [ActionName("PG")]
         public async Task<ActionResult> PGAsync()
         {
+            var lineup = new ValidateLineup();
+            ViewData["MyLineup"] = lineup.GetLineup();
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PG" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
@@ -71,6 +75,8 @@ namespace dfsTest.Controllers
         [ActionName("SG")]
         public async Task<ActionResult> SGAsync()
         {
+            var lineup = new ValidateLineup();
+            ViewData["MyLineup"] = lineup.GetLineup();
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SG" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
@@ -78,6 +84,8 @@ namespace dfsTest.Controllers
         [ActionName("C")]
         public async Task<ActionResult> CAsync()
         {
+            var lineup = new ValidateLineup();
+            ViewData["MyLineup"] = lineup.GetLineup();
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "C" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
@@ -85,6 +93,8 @@ namespace dfsTest.Controllers
         [ActionName("PF")]
         public async Task<ActionResult> PFAsync()
         {
+            var lineup = new ValidateLineup();
+            ViewData["MyLineup"] = lineup.GetLineup();
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "PF" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
         }
@@ -92,37 +102,10 @@ namespace dfsTest.Controllers
         [ActionName("SF")]
         public async Task<ActionResult> SFAsync()
         {
+            var lineup = new ValidateLineup();
+            ViewData["MyLineup"] = lineup.GetLineup();
             var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.Position == "SF" || d.InLineup == true));
             return View("~/Views/MainPage/Index.cshtml", players);
-        }
-
-        [ActionName("Validate")]
-        public async Task<ActionResult> ValidateAsync()
-        {
-            var players = await DocumentDBRepository<Player>.GetPlayersAsync(d => (d.InLineup));
-            int budget = 60000;
-            int centers = 0;
-            int pfs = 0;
-            int sfs = 0;
-            int pgs = 0;
-            int sgs = 0;
-            Boolean toReturn = false;
-            foreach (Player player in players)
-            {
-                if (player.Position == "PF")
-                    pfs++;
-                else if (player.Position == "SF")
-                    sfs++;
-                else if (player.Position == "C")
-                    centers++;
-                else if (player.Position == "PG")
-                    pgs++;
-                else
-                    sgs++;
-                budget = budget - player.Salary;
-            }
-            toReturn = (budget > 0 && pfs <= 2 && sfs <= 2 && pgs <= 2 && sgs <= 2 && centers <= 2);
-            return View("~/Views/MainPage/Index.cshtml", toReturn);
         }
     }
 }
